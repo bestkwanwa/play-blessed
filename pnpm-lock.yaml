@@ -1,0 +1,33 @@
+lockfileVersion: 5.4
+
+specifiers:
+  '@vue/reactivity': ^3.2.41
+  blessed: ^0.1.81
+
+dependencies:
+  '@vue/reactivity': registry.npmmirror.com/@vue/reactivity/3.2.41
+  blessed: registry.npmmirror.com/blessed/0.1.81
+
+packages:
+
+  registry.npmmirror.com/@vue/reactivity/3.2.41:
+    resolution: {integrity: sha512-9JvCnlj8uc5xRiQGZ28MKGjuCoPhhTwcoAdv3o31+cfGgonwdPNuvqAXLhlzu4zwqavFEG5tvaoINQEfxz+l6g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vue/reactivity/-/reactivity-3.2.41.tgz}
+    name: '@vue/reactivity'
+    version: 3.2.41
+    dependencies:
+      '@vue/shared': registry.npmmirror.com/@vue/shared/3.2.41
+    dev: false
+
+  registry.npmmirror.com/@vue/shared/3.2.41:
+    resolution: {integrity: sha512-W9mfWLHmJhkfAmV+7gDjcHeAWALQtgGT3JErxULl0oz6R6+3ug91I7IErs93eCFhPCZPHBs4QJS7YWEV7A3sxw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vue/shared/-/shared-3.2.41.tgz}
+    name: '@vue/shared'
+    version: 3.2.41
+    dev: false
+
+  registry.npmmirror.com/blessed/0.1.81:
+    resolution: {integrity: sha512-LoF5gae+hlmfORcG1M5+5XZi4LBmvlXTzwJWzUlPryN/SJdSflZvROM2TwkT0GMpq7oqT48NRd4GS7BiVBc5OQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/blessed/-/blessed-0.1.81.tgz}
+    name: blessed
+    version: 0.1.81
+    engines: {node: '>= 0.8.0'}
+    hasBin: true
+    dev: false
