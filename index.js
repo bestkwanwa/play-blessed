@@ -1,12 +1,12 @@
-var blessed = require('blessed');
+let { ref, reactive, effect } = require('@vue/reactivity')
+let blessed = require('blessed')
+let screen = blessed.screen()
 
-// Create a screen object.
-var screen = blessed.screen();
+screen.key(['escape', 'q', 'C-c'], function (ch, key) {
+    return process.exit(0);
+});
 
-// Create a box perfectly centered horizontally and vertically.
-var box = blessed.box({
-    top: 'center',
-    left: 'center',
+let box = blessed.box({
     width: '20%',
     height: '40%',
     content: 'Advertising space foqr rent!',
@@ -21,65 +21,60 @@ var box = blessed.box({
             fg: '#ffffff'
         },
     }
-});
+})
 
-// Append our box to the screen.
 screen.append(box);
 
-// Quit on Escape, q, or Control-C.
-screen.key(['escape', 'q', 'C-c'], function (ch, key) {
-    return process.exit(0);
-});
-
-function reset() {
-    box.direction = 'right';
-    box.angle = 'down';
-    screen.render();
-}
-
-function startMove() {
-    reset();
-
-    setInterval(function () {
-        if (box.direction === 'right') {
-            if (box.left > screen.width - box.width) {
-                box.direction = 'left'
-                box.left--
-            } else {
-                box.left++
+const App = {
+    render(data) {
+        effect(() => {
+            box.top = data.top.value
+            box.left = data.left.value
+            if (box.direction === 'right') {
+                if (data.left.value >= (screen.width - box.width)) {
+                    box.direction = 'left'
+                }
+            } else if (box.direction === 'left') {
+                if (data.left.value < 0) {
+                    box.direction = 'right'
+                }
             }
-        } else if (box.direction === 'left') {
-            if (box.left < 0) {
-                box.direction = 'right'
-                box.left++
-            } else {
-                box.left--
+
+            if (box.angle === 'down') {
+                if (data.top.value >= (screen.height - box.height)) {
+                    box.angle = 'up'
+                }
+            } else if (box.angle === 'up') {
+                if (data.top.value < 0) {
+                    box.angle = 'down'
+                }
             }
+            screen.render()
+        })
+    },
+    setup() {
+        const top = ref((screen.height - box.height) / 2)
+        const left = ref((screen.width - box.width) / 2)
+        box.direction = 'right'
+        box.angle = 'down'
+        setInterval(() => {
+            if (box.direction === 'right') {
+                left.value+=2
+            }
+            if (box.direction === 'left') {
+                left.value-=2
+            }
+            if (box.angle === 'up') {
+                top.value--
+            }
+            if (box.angle === 'down') {
+                top.value++
+            }
+        }, 100);
+        return {
+            top, left
         }
-
-        if (box.angle === 'down') {
-            if (box.top > screen.height - box.height) {
-                box.angle = 'up';
-                box.top--
-            } else {
-                box.top++;
-            }
-        } else if (box.angle === 'up') {
-            if (box.top < 0) {
-                box.angle = 'down';
-                box.top++
-            } else {
-                box.top--;
-            }
-        }
-
-        screen.render();
-    }, 1000);
+    }
 }
 
-function main() {
-    screen.render();
-    return startMove();
-}
-
-main();
+App.render(App.setup())
